@@ -151,46 +151,35 @@
     </p>
     
         <h2>Cadastrar Novo Usuário</h2>
-        <?php echo $msg; // Exibe a mensagem de erro/sucesso do cadastro ?>
-        <form method="POST" action="?acao=cadastrar">
+        <form method="POST" action="">
             <label>Nome:</label><br>
-            <input type="text" name="nome" required value="<?php echo isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : ''; ?>"><br><br>
+            <input type="text" name="nome" required value=""><br><br>
             
             <label>E-mail:</label><br>
-            <input type="email" name="email" required value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"><br><br>
+            <input type="email" name="email" required value=""><br><br>
             
             <label>Senha:</label><br>
-            <input type="password" name="senha" required><br><br>
+            <input type="password" name="senha" required value=""><br><br>
             
             <label>Tipo de Acesso:</label><br>
-            <select name="tipo" required>
+            <select name="tipo" required value="">
                 <option value="">Selecione...</option>
-                <?php foreach ($tipos_usuario as $t): ?>
-                    <option value="<?php echo $t; ?>" <?php echo (isset($_POST['tipo']) && $_POST['tipo'] == $t) ? 'selected' : ''; ?>>
-                        <?php echo $t; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select><br><br>
-
+                    <option value="">
             <input type="submit" name="enviar" value="Cadastrar">
         </form>
    
-        <h2>Editar Usuário: <?php echo htmlspecialchars($usuario['nome']); ?></h2>
-        <?php echo $msg; // Exibe a mensagem de sucesso/erro da edição ?>
-        <form method="POST" action="?acao=editar&id_usuario=<?php echo $id; ?>">
+        <h2>Editar Usuário:</h2>
+        <form method="POST" action="">
             <label>Nome:</label><br>
-            <input type="text" name="nome" value="<?php echo htmlspecialchars($usuario['nome']); ?>" required><br><br>
+            <input type="text" name="nome" value="" required ><br><br>
             
             <label>E-mail:</label><br>
-            <input type="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" required><br><br>
+            <input type="email" name="email" value="" required><br><br>
             
             <label>Tipo de Acesso:</label><br>
             <select name="tipo" required>
-                <?php foreach ($tipos_usuario as $t): ?>
-                    <option value="<?php echo $t; ?>" <?php echo ($usuario['tipo'] == $t) ? 'selected' : ''; ?>>
-                        <?php echo $t; ?>
+                    <option value="">
                     </option>
-                <?php endforeach; ?>
             </select><br><br>
             
             <label>Nova Senha (deixe em branco para não alterar):</label><br>
