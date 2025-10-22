@@ -1,12 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>CRUD de Usuários | Gerenciamento de Acesso</title>
     <style>
-        /* Cores: Roxo (#6a0dad), Branco (#fff), Quase Branco (#f8f8f8) */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             background-color: #f8f8f8; 
@@ -41,62 +38,6 @@
         }
         p a:hover {
             background-color: #e0b0ff; 
-        }
-        table { 
-            border-collapse: collapse; 
-            width: 100%; 
-            margin: 20px 0; 
-            background-color: #000000;
-            border-radius: 8px;
-            overflow: hidden; 
-        }
-        th, td { 
-            border: 1px solid #eee; 
-            padding: 12px 15px; 
-            text-align: left; 
-        }
-        th { 
-            background-color: #6a0dad; 
-            color: white; 
-            font-weight: 600; /* Um pouco mais de peso */
-            text-transform: uppercase;
-            font-size: 14px;
-        }
-        tr:nth-child(even) { 
-            background-color: #f9f9f9; /* Linhas pares bem suaves */
-        }
-        tr:hover { 
-            background-color: #f0e6ff; /* Roxo suave no hover */
-        }
-        td a {
-            color: #6a0dad; 
-            text-decoration: none;
-            margin-right: 10px;
-            transition: color 0.3s ease;
-        }
-        td a:hover {
-            color: #8a2be2;
-            text-decoration: underline;
-        }
-        .success { 
-            color: #28a745; 
-            font-weight: bold; 
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .error { 
-            color: #dc3545; 
-            font-weight: bold; 
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            text-align: center;
         }
         form {
             background-color: #fff;
@@ -149,45 +90,51 @@
         <a href="?acao=listar">Listar Usuários</a> | 
         <a href="?acao=cadastrar">Novo Cadastro</a>
     </p>
-    
-        <h2>Cadastrar Novo Usuário</h2>
-        <form method="POST" action="">
-            <label>Nome:</label><br>
-            <input type="text" name="nome" required value=""><br><br>
-            
-            <label>E-mail:</label><br>
-            <input type="email" name="email" required value=""><br><br>
-            
-            <label>Senha:</label><br>
-            <input type="password" name="senha" required value=""><br><br>
-            
-            <label>Tipo de Acesso:</label><br>
-            <select name="tipo" required value="">
-                <option value="">Selecione...</option>
-                    <option value="">
-            <input type="submit" name="enviar" value="Cadastrar">
-        </form>
-   
-        <h2>Editar Usuário:</h2>
-        <form method="POST" action="">
-            <label>Nome:</label><br>
-            <input type="text" name="nome" value="" required ><br><br>
-            
-            <label>E-mail:</label><br>
-            <input type="email" name="email" value="" required><br><br>
-            
-            <label>Tipo de Acesso:</label><br>
-            <select name="tipo" required>
-                    <option value="">
-                    </option>
-            </select><br><br>
-            
-            <label>Nova Senha (deixe em branco para não alterar):</label><br>
-            <input type="password" name="nova_senha"><br><br>
-            
-            <input type="submit" name="enviar" value="Salvar Alterações">
-        </form>
 
+    <!-- Formulário de Cadastro -->
+    <h2>Cadastrar Novo Usuário</h2>
+    <form method="POST" action="">
+        <label>Nome:</label>
+        <input type="text" name="nome" required 
+               value="<?php echo isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : ''; ?>">
+
+        <label>E-mail:</label>
+        <input type="email" name="email" required 
+               value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+
+        <label>Senha:</label>
+        <input type="password" name="senha" required>
+
+        <label>Tipo de Acesso:</label>
+        <select name="tipo" required>
+            <option value="">Selecione...</option>
+            <option value="Administrador" <?php if(isset($_POST['tipo']) && $_POST['tipo']=="Administrador") echo "selected"; ?>>Administrador</option>
+            <option value="Usuário" <?php if(isset($_POST['tipo']) && $_POST['tipo']=="Usuário") echo "selected"; ?>>Usuário</option>
+        </select>
+
+        <input type="submit" name="enviar" value="Cadastrar">
+    </form>
+
+    <!-- Formulário de Edição -->
+    <h2>Editar Usuário</h2>
+    <form method="POST" action="">
+        <label>Nome:</label>
+        <input type="text" name="nome" required value="<?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?>">
+
+        <label>E-mail:</label>
+        <input type="email" name="email" required value="<?php echo isset($usuario['email']) ? htmlspecialchars($usuario['email']) : ''; ?>">
+
+        <label>Tipo de Acesso:</label>
+        <select name="tipo" required>
+            <option value="Administrador" <?php if(isset($usuario['tipo']) && $usuario['tipo']=="Administrador") echo "selected"; ?>>Administrador</option>
+            <option value="Usuário" <?php if(isset($usuario['tipo']) && $usuario['tipo']=="Usuário") echo "selected"; ?>>Usuário</option>
+        </select>
+
+        <label>Nova Senha (deixe em branco para não alterar):</label>
+        <input type="password" name="nova_senha">
+
+        <input type="submit" name="enviar" value="Salvar Alterações">
+    </form>
 </center>
 </body>
 </html>
