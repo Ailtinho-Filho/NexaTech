@@ -2,191 +2,289 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>NexaIA - Painel Administrativo</title>
+<title>NexaIA - Sistema de Gestão</title>
 <style>
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f8f8f8; margin:0; }
-center { max-width:1100px; margin:40px auto; padding:20px; background:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.1); border-radius:8px; }
-h1,h2{color:#6a0dad; text-align:center;margin-bottom:25px;}
-p{text-align:center;}
-p a{color:#6a0dad; text-decoration:none;font-weight:bold;margin:0 5px;}
-p a:hover{text-decoration:underline;}
-form{background:#fff;padding:20px;border-radius:8px;border:1px solid #ddd;margin-bottom:30px;}
-form label{display:block;margin-bottom:8px;font-weight:600;}
-form input,form select,form textarea{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ccc;border-radius:5px;font-size:15px;}
-form input[type="submit"]{background:#6a0dad;color:white;border:none;cursor:pointer;font-weight:bold;transition:0.3s;}
-form input[type="submit"]:hover{background:#8a2be2;}
-table{border-collapse:collapse;width:100%;margin-bottom:40px;}
-th,td{border:1px solid #eee;padding:10px 12px;text-align:left;}
-th{background:#6a0dad;color:#fff;text-transform:uppercase;font-size:14px;}
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f8f8; margin:0; padding:0; }
+.container { max-width:900px; margin:30px auto; padding:20px; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+h1,h2 { text-align:center; color:#6a0dad; }
+form { margin-top:20px; padding:15px; border:1px solid #ddd; border-radius:8px; }
+label { display:block; margin:8px 0; font-weight:600; }
+input, select, textarea { width:100%; padding:8px; margin-bottom:15px; border-radius:5px; border:1px solid #ccc; }
+button { padding:10px 20px; background:#6a0dad; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+button:hover { background:#8a2be2; }
+table { width:100%; border-collapse:collapse; margin:20px 0; }
+th,td { border:1px solid #eee; padding:10px; text-align:left; }
+th { background:#6a0dad; color:#fff; }
 tr:nth-child(even){background:#f9f9f9;}
 tr:hover{background:#f0e6ff;}
-td a{color:#6a0dad;text-decoration:none;margin-right:10px;}
-td a:hover{text-decoration:underline;}
-.success{color:green;font-weight:bold;text-align:center;margin-bottom:15px;}
-.error{color:red;font-weight:bold;text-align:center;margin-bottom:15px;}
-#logout-btn{background:#e63946;margin-top:10px;}
-#logout-btn:hover{background:#f55b71;}
-textarea{resize:none;}
-#chat-box{border:1px solid #ccc;padding:10px;height:150px;overflow-y:auto;margin-bottom:10px;background:#f9f9f9;}
+.chat-box { border:1px solid #ccc; padding:10px; height:200px; overflow-y:auto; background:#f4f4f4; margin-bottom:10px;}
+.message { margin:5px 0; }
+.admin { color:blue; font-weight:bold; }
+.ia { color:green; font-weight:bold; }
+.success { background:#d4edda; padding:8px; margin:10px 0; border-radius:5px; color:#155724;}
+.error { background:#f8d7da; padding:8px; margin:10px 0; border-radius:5px; color:#721c24;}
+nav a { margin:0 10px; color:#6a0dad; text-decoration:none; font-weight:bold; }
+nav a:hover { text-decoration:underline;}
 </style>
 </head>
 <body>
-<center>
-<h1>NexaIA - Sistema de Gestão de Projetos</h1>
+<div class="container">
+<h1>NexaIA - Sistema de Gestão</h1>
 
-<!-- LOGIN -->
 <div id="login-section">
 <h2>Login</h2>
-<div id="msg-login"></div>
-<form id="login-form">
+<form id="loginForm">
 <label>Email:</label>
-<input type="email" id="login-email" required>
+<input type="email" id="loginEmail" required>
 <label>Senha:</label>
-<input type="password" id="login-senha" required>
-<input type="submit" value="Login">
+<input type="password" id="loginSenha" required>
+<button type="submit">Entrar</button>
 </form>
+<p>Não tem conta? <a href="#" onclick="showCadastro()">Cadastrar</a></p>
+</div>
 
-<h2>Cadastrar Novo Usuário</h2>
-<form id="register-form">
-<label>Nome:</label><input type="text" id="reg-nome" required>
-<label>Email:</label><input type="email" id="reg-email" required>
-<label>Senha:</label><input type="password" id="reg-senha" required>
+<div id="cadastro-section" style="display:none;">
+<h2>Cadastro</h2>
+<form id="cadastroForm">
+<label>Nome:</label><input type="text" id="cadNome" required>
+<label>Email:</label><input type="email" id="cadEmail" required>
+<label>Senha:</label><input type="password" id="cadSenha" required>
 <label>Tipo:</label>
-<select id="reg-tipo" required>
+<select id="cadTipo" required>
 <option value="">Selecione...</option>
 <option value="Administrador">Administrador</option>
 <option value="Consultor">Consultor</option>
 <option value="Cliente">Cliente</option>
 </select>
-<input type="submit" value="Cadastrar">
+<button type="submit">Cadastrar</button>
 </form>
+<p><a href="#" onclick="showLogin()">Voltar ao login</a></p>
 </div>
 
-<!-- APP -->
 <div id="app-section" style="display:none;">
-<p>Bem-vindo, <span id="user-name"></span>! <button id="logout-btn" onclick="logout()">Logout</button></p>
-<p>
-<a href="#" onclick="showSection('usuarios')">Usuários</a> |
-<a href="#" onclick="showSection('empresas')">Empresas</a> |
-<a href="#" onclick="showSection('analise')">Análise NexaIA</a> |
-<a href="#" onclick="showSection('relatorios')">Relatórios</a> |
-<a href="#" onclick="showSection('chat')">Chat IA</a>
-</p>
+<nav>
+<a href="#" onclick="showUsuarios()">Usuários</a> |
+<a href="#" onclick="showEmpresas()">Empresas</a> |
+<a href="#" onclick="showAnalise()">Nova Análise</a> |
+<a href="#" onclick="showRelatorios()">Relatórios</a> |
+<a href="#" onclick="showChat()">Chat IA</a> |
+<a href="#" onclick="logout()">Sair</a>
+</nav>
 
-<!-- USUÁRIOS -->
-<div id="usuarios-section">
-<h2>Usuários</h2>
-<div id="msg-usuario"></div>
-<form id="usuario-form">
-<label>Nome:</label><input type="text" id="usuario-nome" required>
-<label>Email:</label><input type="email" id="usuario-email" required>
-<label>Tipo:</label>
-<select id="usuario-tipo" required>
-<option value="">Selecione...</option>
-<option value="Administrador">Administrador</option>
-<option value="Consultor">Consultor</option>
-<option value="Cliente">Cliente</option>
-</select>
-<input type="submit" value="Salvar Usuário">
-<input type="hidden" id="usuario-index">
-</form>
-<table id="usuarios-table"><tr><th>ID</th><th>Nome</th><th>Email</th><th>Tipo</th><th>Ações</th></tr></table>
-</div>
-
-<!-- EMPRESAS -->
-<div id="empresas-section" style="display:none;">
-<h2>Empresas</h2>
-<div id="msg-empresa"></div>
-<form id="empresa-form">
-<label>Nome da Empresa:</label><input type="text" id="empresa-nome" required>
-<label>CNPJ:</label><input type="text" id="empresa-cnpj" required>
-<label>Setor:</label><input type="text" id="empresa-setor">
-<label>Telefone:</label><input type="text" id="empresa-telefone">
-<input type="submit" value="Salvar Empresa">
-<input type="hidden" id="empresa-index">
-</form>
-<table id="empresas-table"><tr><th>ID</th><th>Nome</th><th>CNPJ</th><th>Setor</th><th>Telefone</th><th>Ações</th></tr></table>
-</div>
-
-<!-- ANÁLISE DE NECESSIDADES -->
-<div id="analise-section" style="display:none;">
-<h2>Análise de Necessidades - NexaIA</h2>
-<form id="analise-form">
-<label>Desafios da Empresa:</label>
-<textarea id="desafios" required></textarea>
-<label>Objetivos da Empresa:</label>
-<textarea id="objetivos" required></textarea>
-<input type="submit" value="Processar IA">
-</form>
-<div id="resultado-ia"></div>
-</div>
-
-<!-- RELATÓRIOS -->
-<div id="relatorios-section" style="display:none;">
-<h2>Relatórios Técnicos</h2>
-<div id="relatorios-list"></div>
-</div>
-
-<!-- CHAT IA -->
-<div id="chat-section" style="display:none;">
-<h2>Chat com IA</h2>
-<div id="chat-box"></div>
-<form id="chat-form">
-<input type="text" id="chat-input" placeholder="Digite sua mensagem..." required>
-<input type="submit" value="Enviar">
-</form>
-</div>
-
+<div id="content"></div>
 </div>
 
 <script>
-// --- LocalStorage ---
-let usuarios = JSON.parse(localStorage.getItem('usuarios')||'[]');
-let empresas = JSON.parse(localStorage.getItem('empresas')||'[]');
-let relatorios = JSON.parse(localStorage.getItem('relatorios')||'[]');
-let loggedUser = JSON.parse(localStorage.getItem('loggedUser')||'null');
+// ---------- Helpers ----------
+let usuarios = JSON.parse(localStorage.getItem("usuarios")||"[]");
+let empresas = JSON.parse(localStorage.getItem("empresas")||"[]");
+let relatorios = JSON.parse(localStorage.getItem("relatorios")||"[]");
+let loggedUser = JSON.parse(localStorage.getItem("loggedUser")||"null");
 
-// --- Login/Register ---
-function login(email, senha){
-    const user = usuarios.find(u=>u.email===email && u.senha===senha);
-    if(user){
-        loggedUser = user;
-        localStorage.setItem('loggedUser', JSON.stringify(user));
-        showApp();
-    } else {
-        document.getElementById('msg-login').innerHTML='<div class="error">Email ou senha incorretos!</div>';
-    }
+function showLogin(){ document.getElementById("login-section").style.display="block";
+document.getElementById("cadastro-section").style.display="none";
+document.getElementById("app-section").style.display="none";}
+function showCadastro(){ document.getElementById("login-section").style.display="none";
+document.getElementById("cadastro-section").style.display="block";}
+function showApp(){ document.getElementById("login-section").style.display="none";
+document.getElementById("cadastro-section").style.display="none";
+document.getElementById("app-section").style.display="block"; }
+
+// ---------- Login ----------
+document.getElementById("loginForm").addEventListener("submit", function(e){
+e.preventDefault();
+let email = document.getElementById("loginEmail").value;
+let senha = document.getElementById("loginSenha").value;
+let user = usuarios.find(u=>u.email===email && u.senha===senha);
+if(user){ loggedUser=user; localStorage.setItem("loggedUser", JSON.stringify(user)); showApp(); showUsuarios(); }
+else alert("Email ou senha incorretos!");
+});
+
+// ---------- Cadastro ----------
+document.getElementById("cadastroForm").addEventListener("submit", function(e){
+e.preventDefault();
+let nome = document.getElementById("cadNome").value;
+let email = document.getElementById("cadEmail").value;
+let senha = document.getElementById("cadSenha").value;
+let tipo = document.getElementById("cadTipo").value;
+if(usuarios.some(u=>u.email===email)){ alert("Email já cadastrado"); return; }
+let id = usuarios.length?usuarios[usuarios.length-1].id+1:1;
+usuarios.push({id,nome,email,senha,tipo});
+localStorage.setItem("usuarios", JSON.stringify(usuarios));
+alert("Cadastro realizado!");
+showLogin();
+});
+
+// ---------- Logout ----------
+function logout(){ loggedUser=null; localStorage.removeItem("loggedUser"); showLogin(); }
+
+// ---------- Usuários CRUD ----------
+function showUsuarios(){
+if(loggedUser.tipo==="Cliente"){ alert("Acesso negado!"); return;}
+let html="<h2>Usuários</h2><table><tr><th>ID</th><th>Nome</th><th>Email</th><th>Tipo</th><th>Ações</th></tr>";
+usuarios.forEach(u=>{
+html+="<tr><td>"+u.id+"</td><td>"+u.nome+"</td><td>"+u.email+"</td><td>"+u.tipo+"</td><td>";
+html+="<a href='#' onclick='editarUsuario("+u.id+")'>Editar</a> | ";
+html+="<a href='#' onclick='excluirUsuario("+u.id+")'>Excluir</a></td></tr>";
+});
+html+="</table>";
+html+="<button onclick='novoUsuarioForm()'>Novo Usuário</button>";
+document.getElementById("content").innerHTML=html;
 }
 
-function register(nome,email,senha,tipo){
-    if(usuarios.find(u=>u.email===email)){
-        document.getElementById('msg-login').innerHTML='<div class="error">Email já cadastrado!</div>';
-        return;
-    }
-    usuarios.push({nome,email,senha,tipo});
-    localStorage.setItem('usuarios', JSON.stringify(usuarios));
-    document.getElementById('msg-login').innerHTML='<div class="success">Usuário cadastrado!</div>';
+function novoUsuarioForm(){
+let html="<h3>Novo Usuário</h3><form onsubmit='salvarUsuario(event)'>";
+html+="<label>Nome:</label><input type='text' id='newNome' required>";
+html+="<label>Email:</label><input type='email' id='newEmail' required>";
+html+="<label>Senha:</label><input type='text' id='newSenha' required>";
+html+="<label>Tipo:</label><select id='newTipo' required><option value='Administrador'>Administrador</option><option value='Consultor'>Consultor</option><option value='Cliente'>Cliente</option></select>";
+html+="<button type='submit'>Salvar</button></form>";
+document.getElementById("content").innerHTML=html;
 }
 
-function logout(){
-    loggedUser=null;
-    localStorage.removeItem('loggedUser');
-    document.getElementById('login-section').style.display='block';
-    document.getElementById('app-section').style.display='none';
+function salvarUsuario(e){
+e.preventDefault();
+let id=usuarios.length?usuarios[usuarios.length-1].id+1:1;
+usuarios.push({id,nome:document.getElementById("newNome").value,email:document.getElementById("newEmail").value,senha:document.getElementById("newSenha").value,tipo:document.getElementById("newTipo").value});
+localStorage.setItem("usuarios",JSON.stringify(usuarios));
+showUsuarios();
 }
 
-// --- App ---
-function showApp(){
-    document.getElementById('login-section').style.display='none';
-    document.getElementById('app-section').style.display='block';
-    document.getElementById('user-name').textContent = loggedUser.nome;
-    renderUsuarios(); renderEmpresas(); renderRelatorios();
+function editarUsuario(id){
+let u=usuarios.find(x=>x.id===id);
+let html="<h3>Editar Usuário</h3><form onsubmit='atualizarUsuario(event,"+id+")'>";
+html+="<label>Nome:</label><input type='text' id='editNome' value='"+u.nome+"' required>";
+html+="<label>Email:</label><input type='email' id='editEmail' value='"+u.email+"' required>";
+html+="<label>Senha:</label><input type='text' id='editSenha' value='"+u.senha+"' required>";
+html+="<label>Tipo:</label><select id='editTipo'><option value='Administrador'>Administrador</option><option value='Consultor'>Consultor</option><option value='Cliente'>Cliente</option></select>";
+html+="<button type='submit'>Atualizar</button></form>";
+document.getElementById("content").innerHTML=html;
+document.getElementById("editTipo").value=u.tipo;
 }
-if(loggedUser) showApp();
 
-// --- Sections ---
-function showSection(section){
-    document.getElementById('usuarios-section').style.display = section==='usuarios'?'block':'none';
-    document.getElementById('empresas-section').style.display = section==='empresas'?'block':'none';
-    document.getElementById('analise-section').style.display = section==='analise'?'block':'none';
-    document.getElementById('relatorios-section').style
+function atualizarUsuario(e,id){ e.preventDefault();
+let u=usuarios.find(x=>x.id===id);
+u.nome=document.getElementById("editNome").value;
+u.email=document.getElementById("editEmail").value;
+u.senha=document.getElementById("editSenha").value;
+u.tipo=document.getElementById("editTipo").value;
+localStorage.setItem("usuarios",JSON.stringify(usuarios));
+showUsuarios();
+}
+
+function excluirUsuario(id){ if(confirm("Confirma exclusão?")){
+usuarios=usuarios.filter(x=>x.id!==id);
+localStorage.setItem("usuarios",JSON.stringify(usuarios));
+showUsuarios();
+}}
+
+// ---------- Empresas CRUD ----------
+function showEmpresas(){
+let html="<h2>Empresas</h2><table><tr><th>ID</th><th>Nome</th><th>CNPJ</th><th>Setor</th><th>Telefone</th><th>Ações</th></tr>";
+empresas.forEach(e=>{
+html+="<tr><td>"+e.id+"</td><td>"+e.nome+"</td><td>"+e.cnpj+"</td><td>"+e.setor+"</td><td>"+e.telefone+"</td><td>";
+html+="<a href='#' onclick='editarEmpresa("+e.id+")'>Editar</a> | ";
+html+="<a href='#' onclick='excluirEmpresa("+e.id+")'>Excluir</a></td></tr>";
+});
+html+="</table><button onclick='novaEmpresaForm()'>Nova Empresa</button>";
+document.getElementById("content").innerHTML=html;
+}
+
+function novaEmpresaForm(){
+let html="<h3>Nova Empresa</h3><form onsubmit='salvarEmpresa(event)'>";
+html+="<label>Nome:</label><input type='text' id='empNome' required>";
+html+="<label>CNPJ:</label><input type='text' id='empCNPJ' required>";
+html+="<label>Setor:</label><input type='text' id='empSetor'>";
+html+="<label>Telefone:</label><input type='text' id='empTel'>";
+html+="<button type='submit'>Salvar</button></form>";
+document.getElementById("content").innerHTML=html;
+}
+
+function salvarEmpresa(e){e.preventDefault();
+let id=empresas.length?empresas[empresas.length-1].id+1:1;
+empresas.push({id,nome:document.getElementById("empNome").value,cnpj:document.getElementById("empCNPJ").value,setor:document.getElementById("empSetor").value,telefone:document.getElementById("empTel").value});
+localStorage.setItem("empresas",JSON.stringify(empresas));
+showEmpresas();
+}
+
+function editarEmpresa(id){
+let e=empresas.find(x=>x.id===id);
+let html="<h3>Editar Empresa</h3><form onsubmit='atualizarEmpresa(event,"+id+")'>";
+html+="<label>Nome:</label><input type='text' id='editEmpNome' value='"+e.nome+"' required>";
+html+="<label>CNPJ:</label><input type='text' id='editEmpCNPJ' value='"+e.cnpj+"' required>";
+html+="<label>Setor:</label><input type='text' id='editEmpSetor' value='"+e.setor+"'>";
+html+="<label>Telefone:</label><input type='text' id='editEmpTel' value='"+e.telefone+"'>";
+html+="<button type='submit'>Atualizar</button></form>";
+document.getElementById("content").innerHTML=html;
+}
+
+function atualizarEmpresa(e,id){ e.preventDefault();
+let em=empresas.find(x=>x.id===id);
+em.nome=document.getElementById("editEmpNome").value;
+em.cnpj=document.getElementById("editEmpCNPJ").value;
+em.setor=document.getElementById("editEmpSetor").value;
+em.telefone=document.getElementById("editEmpTel").value;
+localStorage.setItem("empresas",JSON.stringify(empresas));
+showEmpresas();
+}
+
+function excluirEmpresa(id){ if(confirm("Confirma exclusão?")){
+empresas=empresas.filter(x=>x.id!==id);
+localStorage.setItem("empresas",JSON.stringify(empresas));
+showEmpresas();
+}}
+
+// ---------- Formulário de Análise ----------
+function showAnalise(){
+let html="<h2>Nova Análise</h2><form onsubmit='gerarAnalise(event)'>";
+html+="<label>Desafios:</label><textarea id='desafios' required></textarea>";
+html+="<label>Objetivos:</label><textarea id='objetivos' required></textarea>";
+html+="<button type='submit'>Gerar Solução</button></form><div id='resultado-ia'></div>";
+document.getElementById("content").innerHTML=html;
+}
+
+function gerarAnalise(e){e.preventDefault();
+let desafios=document.getElementById("desafios").value;
+let objetivos=document.getElementById("objetivos").value;
+let recomendacao="Solução sugerida: "+desafios.split(" ")[0]+" + "+objetivos.split(" ")[0];
+let id=relatorios.length?relatorios[relatorios.length-1].id+1:1;
+relatorios.push({id,usuario:loggedUser.nome,data:new Date().toLocaleDateString(),resumo:"Desafios: "+desafios+"\nObjetivos: "+objetivos+"\n"+recomendacao});
+localStorage.setItem("relatorios",JSON.stringify(relatorios));
+document.getElementById("resultado-ia").innerHTML="<div class='success'><pre>"+recomendacao+"</pre></div>";
+}
+
+// ---------- Relatórios ----------
+function showRelatorios(){
+let html="<h2>Relatórios</h2>";
+relatorios.forEach(r=>{
+html+="<div><b>ID:</b>"+r.id+" <b>Usuário:</b>"+r.usuario+" <b>Data:</b>"+r.data+"<pre>"+r.resumo+"</pre></div><hr>";
+});
+document.getElementById("content").innerHTML=html;
+}
+
+// ---------- Chat IA ----------
+function showChat(){
+let html="<h2>Chat IA</h2><div class='chat-box' id='chatBox'></div>";
+html+="<input type='text' id='chatMsg'><button onclick='enviarChat()'>Enviar</button>";
+document.getElementById("content").innerHTML=html;
+}
+
+function enviarChat(){
+let msg=document.getElementById("chatMsg").value;
+if(!msg) return;
+let chatBox=document.getElementById("chatBox");
+chatBox.innerHTML+="<div class='message admin'>"+loggedUser.nome+": "+msg+"</div>";
+let resposta="IA: Simulação de resposta para '"+msg+"'";
+chatBox.innerHTML+="<div class='message ia'>"+resposta+"</div>";
+chatBox.scrollTop=chatBox.scrollHeight;
+document.getElementById("chatMsg").value="";
+}
+
+// ---------- Inicialização ----------
+if(loggedUser){ showApp(); showUsuarios(); }
+else{ showLogin(); }
+</script>
+
+</div>
+</body>
+</html>
