@@ -1,138 +1,220 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>CRUD de Usuários | Gerenciamento de Acesso</title>
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f8f8f8; 
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        center { 
-            max-width: 900px; 
-            margin: 40px auto; 
-            padding: 20px;
-            background-color: #fff; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-            border-radius: 8px; 
-        }
-        h1, h2 { 
-            color: #6a0dad; 
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        p { 
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        p a {
-            color: #6a0dad; 
-            text-decoration: none;
-            font-weight: bold;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        p a:hover {
-            background-color: #e0b0ff; 
-        }
-        form {
-            background-color: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            margin-top: 20px;
-        }
-        form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-        form input[type="text"],
-        form input[type="email"],
-        form input[type="password"],
-        form select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box; 
-        }
-        form input[type="submit"] {
-            background-color: #6a0dad; 
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 17px;
-            transition: background-color 0.3s ease;
-            width: auto; 
-            display: block; 
-            margin: 20px auto 0;
-            text-transform: uppercase;
-        }
-        form input[type="submit"]:hover {
-            background-color: #8a2be2; 
-        }
-    </style>
+<meta charset="UTF-8">
+<title>CRUD de Usuários e Empresas</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0; padding: 0;
+}
+center {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+h1,h2 { color: #6a0dad; text-align: center; margin-bottom: 25px; }
+p { text-align: center; }
+p a { color: #6a0dad; text-decoration: none; font-weight: bold; margin: 0 5px; }
+p a:hover { text-decoration: underline; }
+form { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 30px; }
+form label { display: block; margin-bottom: 8px; font-weight: 600; }
+form input, form select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
+form input[type="submit"] { background: #6a0dad; color: white; border: none; cursor: pointer; font-weight: bold; transition: 0.3s; }
+form input[type="submit"]:hover { background: #8a2be2; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 40px; }
+th,td { border: 1px solid #eee; padding: 10px 12px; text-align: left; }
+th { background: #6a0dad; color: #fff; text-transform: uppercase; font-size: 14px; }
+tr:nth-child(even) { background: #f9f9f9; }
+tr:hover { background: #f0e6ff; }
+td a { color: #6a0dad; text-decoration: none; margin-right: 10px; }
+td a:hover { text-decoration: underline; }
+.success { color: green; font-weight: bold; text-align: center; margin-bottom: 15px; }
+.error { color: red; font-weight: bold; text-align: center; margin-bottom: 15px; }
+</style>
 </head>
 <body>
 <center>
-    <h1>Gerenciamento de Usuários (CRUD)</h1>
-    <p>
-        <a href="#">Listar Usuários</a> | 
-        <a href="#">Novo Cadastro</a>
-    </p>
+<h1>CRUD de Usuários e Empresas</h1>
+<p><a href="#" onclick="showSection('usuarios')">Usuários</a> | <a href="#" onclick="showSection('empresas')">Empresas</a></p>
 
-    <!-- Formulário de Cadastro -->
-    <h2>Cadastrar Novo Usuário</h2>
-    <form method="POST" action="index.php">
-        <label>Nome:</label>
-        <input type="text" name="nome" required placeholder="Digite o nome completo">
+<div id="usuarios-section">
+<h2>Usuários</h2>
+<div id="msg-usuario"></div>
+<form id="usuario-form">
+<label>Nome:</label>
+<input type="text" id="usuario-nome" placeholder="Digite o nome completo" required>
+<label>Email:</label>
+<input type="email" id="usuario-email" placeholder="Digite o email" required>
+<label>Tipo:</label>
+<select id="usuario-tipo" required>
+<option value="">Selecione...</option>
+<option value="Administrador">Administrador</option>
+<option value="Consultor">Consultor</option>
+<option value="Cliente">Cliente</option>
+</select>
+<input type="submit" value="Cadastrar Usuário">
+<input type="hidden" id="usuario-index">
+</form>
 
-        <label>E-mail:</label>
-        <input type="email" name="email" required placeholder="Digite o e-mail">
+<table id="usuarios-table">
+<tr><th>ID</th><th>Nome</th><th>Email</th><th>Tipo</th><th>Ações</th></tr>
+</table>
+</div>
 
-        <label>Senha:</label>
-        <input type="password" name="senha" required placeholder="Crie uma senha">
+<div id="empresas-section" style="display:none;">
+<h2>Empresas</h2>
+<div id="msg-empresa"></div>
+<form id="empresa-form">
+<label>Nome da Empresa:</label>
+<input type="text" id="empresa-nome" placeholder="Digite o nome da empresa" required>
+<label>CNPJ:</label>
+<input type="text" id="empresa-cnpj" placeholder="Digite o CNPJ" required>
+<label>Setor:</label>
+<input type="text" id="empresa-setor" placeholder="Digite o setor">
+<label>Telefone:</label>
+<input type="text" id="empresa-telefone" placeholder="Digite o telefone">
+<input type="submit" value="Cadastrar Empresa">
+<input type="hidden" id="empresa-index">
+</form>
 
-        <label>Tipo de Acesso:</label>
-        <select name="tipo" required>
-            <option value="">Selecione...</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Usuário">Usuário</option>
-        </select>
+<table id="empresas-table">
+<tr><th>ID</th><th>Nome</th><th>CNPJ</th><th>Setor</th><th>Telefone</th><th>Ações</th></tr>
+</table>
+</div>
 
-        <input type="submit" value="Cadastrar">
-    </form>
+<script>
+// --- Helpers ---
+function showSection(section) {
+    document.getElementById('usuarios-section').style.display = section==='usuarios' ? 'block' : 'none';
+    document.getElementById('empresas-section').style.display = section==='empresas' ? 'block' : 'none';
+}
 
-    <!-- Formulário de Edição -->
-    <h2>Editar Usuário</h2>
-    <form method="POST" action="index.php">
-        <label>Nome:</label>
-        <input type="text" name="nome" required placeholder="Nome do usuário">
+// --- CRUD Usuários ---
+let usuarios = JSON.parse(localStorage.getItem('usuarios')||'[]');
 
-        <label>E-mail:</label>
-        <input type="email" name="email" required placeholder="E-mail do usuário">
+function renderUsuarios() {
+    const table = document.getElementById('usuarios-table');
+    table.innerHTML = '<tr><th>ID</th><th>Nome</th><th>Email</th><th>Tipo</th><th>Ações</th></tr>';
+    usuarios.forEach((u,i) => {
+        table.innerHTML += `<tr>
+            <td>${i+1}</td>
+            <td>${u.nome}</td>
+            <td>${u.email}</td>
+            <td>${u.tipo}</td>
+            <td>
+                <a href="#" onclick="editUsuario(${i})">Editar</a> | 
+                <a href="#" onclick="deleteUsuario(${i})">Excluir</a>
+            </td>
+        </tr>`;
+    });
+}
 
-        <label>Tipo de Acesso:</label>
-        <select name="tipo" required>
-            <option value="Administrador">Administrador</option>
-            <option value="Usuário">Usuário</option>
-        </select>
+function editUsuario(index) {
+    const u = usuarios[index];
+    document.getElementById('usuario-nome').value = u.nome;
+    document.getElementById('usuario-email').value = u.email;
+    document.getElementById('usuario-tipo').value = u.tipo;
+    document.getElementById('usuario-index').value = index;
+}
 
-        <label>Nova Senha (opcional):</label>
-        <input type="password" name="nova_senha" placeholder="Deixe em branco para não alterar">
+function deleteUsuario(index) {
+    if(confirm('Tem certeza que deseja excluir?')) {
+        usuarios.splice(index,1);
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        renderUsuarios();
+    }
+}
 
-        <input type="submit" value="Salvar Alterações">
-    </form>
+document.getElementById('usuario-form').onsubmit = function(e){
+    e.preventDefault();
+    const nome = document.getElementById('usuario-nome').value.trim();
+    const email = document.getElementById('usuario-email').value.trim();
+    const tipo = document.getElementById('usuario-tipo').value;
+    const idx = document.getElementById('usuario-index').value;
+
+    if(idx===''){
+        usuarios.push({nome,email,tipo});
+        document.getElementById('msg-usuario').innerHTML='<div class="success">Usuário cadastrado!</div>';
+    } else {
+        usuarios[idx] = {nome,email,tipo};
+        document.getElementById('msg-usuario').innerHTML='<div class="success">Usuário atualizado!</div>';
+    }
+
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+    renderUsuarios();
+    this.reset();
+    document.getElementById('usuario-index').value = '';
+}
+
+renderUsuarios();
+
+// --- CRUD Empresas ---
+let empresas = JSON.parse(localStorage.getItem('empresas')||'[]');
+
+function renderEmpresas() {
+    const table = document.getElementById('empresas-table');
+    table.innerHTML = '<tr><th>ID</th><th>Nome</th><th>CNPJ</th><th>Setor</th><th>Telefone</th><th>Ações</th></tr>';
+    empresas.forEach((e,i)=>{
+        table.innerHTML += `<tr>
+            <td>${i+1}</td>
+            <td>${e.nome}</td>
+            <td>${e.cnpj}</td>
+            <td>${e.setor}</td>
+            <td>${e.telefone}</td>
+            <td>
+                <a href="#" onclick="editEmpresa(${i})">Editar</a> | 
+                <a href="#" onclick="deleteEmpresa(${i})">Excluir</a>
+            </td>
+        </tr>`;
+    });
+}
+
+function editEmpresa(index) {
+    const e = empresas[index];
+    document.getElementById('empresa-nome').value = e.nome;
+    document.getElementById('empresa-cnpj').value = e.cnpj;
+    document.getElementById('empresa-setor').value = e.setor;
+    document.getElementById('empresa-telefone').value = e.telefone;
+    document.getElementById('empresa-index').value = index;
+}
+
+function deleteEmpresa(index) {
+    if(confirm('Tem certeza que deseja excluir?')) {
+        empresas.splice(index,1);
+        localStorage.setItem('empresas', JSON.stringify(empresas));
+        renderEmpresas();
+    }
+}
+
+document.getElementById('empresa-form').onsubmit = function(e){
+    e.preventDefault();
+    const nome = document.getElementById('empresa-nome').value.trim();
+    const cnpj = document.getElementById('empresa-cnpj').value.trim();
+    const setor = document.getElementById('empresa-setor').value.trim();
+    const telefone = document.getElementById('empresa-telefone').value.trim();
+    const idx = document.getElementById('empresa-index').value;
+
+    if(idx===''){
+        empresas.push({nome,cnpj,setor,telefone});
+        document.getElementById('msg-empresa').innerHTML='<div class="success">Empresa cadastrada!</div>';
+    } else {
+        empresas[idx] = {nome,cnpj,setor,telefone};
+        document.getElementById('msg-empresa').innerHTML='<div class="success">Empresa atualizada!</div>';
+    }
+
+    localStorage.setItem('empresas', JSON.stringify(empresas));
+    renderEmpresas();
+    this.reset();
+    document.getElementById('empresa-index').value = '';
+}
+
+renderEmpresas();
+</script>
 </center>
 </body>
 </html>
