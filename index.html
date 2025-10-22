@@ -87,53 +87,51 @@
 <center>
     <h1>Gerenciamento de Usuários (CRUD)</h1>
     <p>
-        <a href="?acao=listar">Listar Usuários</a> | 
-        <a href="?acao=cadastrar">Novo Cadastro</a>
+        <a href="#">Listar Usuários</a> | 
+        <a href="#">Novo Cadastro</a>
     </p>
 
     <!-- Formulário de Cadastro -->
     <h2>Cadastrar Novo Usuário</h2>
     <form method="POST" action="">
         <label>Nome:</label>
-        <input type="text" name="nome" required 
-               value="<?php echo isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : ''; ?>">
+        <input type="text" name="nome" required placeholder="Digite o nome completo">
 
         <label>E-mail:</label>
-        <input type="email" name="email" required 
-               value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
+        <input type="email" name="email" required placeholder="Digite o e-mail">
 
         <label>Senha:</label>
-        <input type="password" name="senha" required>
+        <input type="password" name="senha" required placeholder="Crie uma senha">
 
         <label>Tipo de Acesso:</label>
         <select name="tipo" required>
             <option value="">Selecione...</option>
-            <option value="Administrador" <?php if(isset($_POST['tipo']) && $_POST['tipo']=="Administrador") echo "selected"; ?>>Administrador</option>
-            <option value="Usuário" <?php if(isset($_POST['tipo']) && $_POST['tipo']=="Usuário") echo "selected"; ?>>Usuário</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Usuário">Usuário</option>
         </select>
 
-        <input type="submit" name="enviar" value="Cadastrar">
+        <input type="submit" value="Cadastrar">
     </form>
 
     <!-- Formulário de Edição -->
     <h2>Editar Usuário</h2>
     <form method="POST" action="">
         <label>Nome:</label>
-        <input type="text" name="nome" required value="<?php echo isset($usuario['nome']) ? htmlspecialchars($usuario['nome']) : ''; ?>">
+        <input type="text" name="nome" required placeholder="Nome do usuário">
 
         <label>E-mail:</label>
-        <input type="email" name="email" required value="<?php echo isset($usuario['email']) ? htmlspecialchars($usuario['email']) : ''; ?>">
+        <input type="email" name="email" required placeholder="E-mail do usuário">
 
         <label>Tipo de Acesso:</label>
         <select name="tipo" required>
-            <option value="Administrador" <?php if(isset($usuario['tipo']) && $usuario['tipo']=="Administrador") echo "selected"; ?>>Administrador</option>
-            <option value="Usuário" <?php if(isset($usuario['tipo']) && $usuario['tipo']=="Usuário") echo "selected"; ?>>Usuário</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Usuário">Usuário</option>
         </select>
 
-        <label>Nova Senha (deixe em branco para não alterar):</label>
-        <input type="password" name="nova_senha">
+        <label>Nova Senha (opcional):</label>
+        <input type="password" name="nova_senha" placeholder="Deixe em branco para não alterar">
 
-        <input type="submit" name="enviar" value="Salvar Alterações">
+        <input type="submit" value="Salvar Alterações">
     </form>
 </center>
 </body>
