@@ -80,5 +80,8 @@ NexaTech/
 **Ailton Rodrigo**
 Estudante de ADS — Fatec Bauru | Bauru, SP
 **João Victor Godoy**
+Estudante de ADS — Fatec Bauru | Bauru, SP
+**Arthur Herique da Silva Gomes**
+Estudante de ADS — Fatec Bauru | Bauru, SP
 
 [LinkedIn](https://www.linkedin.com/in/ailton-rodrigo-da-silva-filho-59228a189/) • [GitHub](https://github.com/Ailtinho-Filho)
